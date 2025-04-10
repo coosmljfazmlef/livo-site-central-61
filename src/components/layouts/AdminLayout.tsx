@@ -9,9 +9,9 @@ import {
   BarChart4, 
   Globe,
   Menu,
-  BellRing,
   User,
-  LogOut
+  LogOut,
+  Ticket
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -73,6 +73,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
       title: "Organization",
       icon: Globe,
       url: "/admin/organization",
+    },
+    {
+      title: "Tickets",
+      icon: Ticket,
+      url: "/admin/tickets",
     },
     {
       title: "Settings",
@@ -144,25 +149,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
             </SidebarTrigger>
             <h1 className="text-xl font-semibold">{title}</h1>
             <div className="ml-auto flex items-center gap-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <BellRing className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-80">
-                  <div className="flex items-center justify-between p-4 pb-2">
-                    <h5 className="font-medium">Notifications</h5>
-                    <Button variant="ghost" size="sm" className="text-xs">
-                      Mark all as read
-                    </Button>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <div className="py-6 text-center text-sm text-muted-foreground">
-                    No new notifications
-                  </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon">

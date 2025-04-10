@@ -32,7 +32,6 @@ const AdminSettings = () => {
         <Tabs defaultValue="account" className="w-full">
           <TabsList>
             <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="notifications">Notifications</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
             <TabsTrigger value="ticket-system">Ticket System</TabsTrigger>
           </TabsList>
@@ -75,75 +74,6 @@ const AdminSettings = () => {
               </CardContent>
               <CardFooter>
                 <Button onClick={handleSave}>Save Changes</Button>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="notifications" className="space-y-4 mt-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Notification Preferences</CardTitle>
-                <CardDescription>
-                  Control which notifications you receive and how.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <h3 className="font-medium mb-3">Email Notifications</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-base">New tickets</Label>
-                        <p className="text-sm text-muted-foreground">Receive notifications when new tickets are created</p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-base">Ticket updates</Label>
-                        <p className="text-sm text-muted-foreground">Receive notifications when tickets are updated</p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-base">User management</Label>
-                        <p className="text-sm text-muted-foreground">Receive notifications about user changes</p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-base">System updates</Label>
-                        <p className="text-sm text-muted-foreground">Receive notifications about system updates and maintenance</p>
-                      </div>
-                      <Switch />
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="font-medium mb-3">In-App Notifications</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-base">Ticket activity</Label>
-                        <p className="text-sm text-muted-foreground">Show notifications for ticket activity</p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-base">Comments and mentions</Label>
-                        <p className="text-sm text-muted-foreground">Show notifications for comments and mentions</p>
-                      </div>
-                      <Switch defaultChecked />
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button onClick={handleSave}>Save Preferences</Button>
               </CardFooter>
             </Card>
           </TabsContent>

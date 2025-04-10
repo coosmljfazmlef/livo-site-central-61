@@ -1,6 +1,5 @@
 
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
@@ -16,6 +15,7 @@ import AdminSites from "./pages/admin/Sites";
 import AdminUsers from "./pages/admin/Users";
 import AdminOrganization from "./pages/admin/Organization";
 import AdminSettings from "./pages/admin/Settings";
+import AdminTickets from "./pages/admin/Tickets";
 
 // Manager routes
 import ManagerDashboard from "./pages/manager/Dashboard";
@@ -34,7 +34,6 @@ const App = () => (
     <AuthProvider>
       <TooltipProvider>
         <Toaster />
-        <Sonner />
         <Routes>
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
@@ -45,6 +44,7 @@ const App = () => (
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/organization" element={<AdminOrganization />} />
           <Route path="/admin/settings" element={<AdminSettings />} />
+          <Route path="/admin/tickets" element={<AdminTickets />} />
           
           {/* Manager routes */}
           <Route path="/manager" element={<ManagerDashboard />} />
