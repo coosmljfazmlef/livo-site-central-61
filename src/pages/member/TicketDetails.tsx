@@ -20,7 +20,8 @@ import {
   Paperclip,
   Clock,
   Tag,
-  Upload
+  Upload,
+  Download
 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 
