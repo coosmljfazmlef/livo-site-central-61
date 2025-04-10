@@ -27,19 +27,40 @@ const Login = () => {
   };
 
   // Demo login functions
-  const loginAsAdmin = () => {
-    setEmail("admin@livo.com");
-    setPassword("password");
+  const loginAsAdmin = async () => {
+    try {
+      await login("admin@livo.com", "password");
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: "Could not log in as Admin. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const loginAsManager = () => {
-    setEmail("manager@livo.com");
-    setPassword("password");
+  const loginAsManager = async () => {
+    try {
+      await login("manager@livo.com", "password");
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: "Could not log in as Manager. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const loginAsMember = () => {
-    setEmail("member@livo.com");
-    setPassword("password");
+  const loginAsMember = async () => {
+    try {
+      await login("member@livo.com", "password");
+    } catch (error) {
+      toast({
+        title: "Login Failed",
+        description: "Could not log in as Member. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -107,20 +128,23 @@ const Login = () => {
               <Button
                 onClick={loginAsAdmin}
                 className="w-full bg-blue-600 hover:bg-blue-700"
+                disabled={isLoading}
               >
-                Login as Admin
+                {isLoading ? "Signing in..." : "Login as Admin"}
               </Button>
               <Button
                 onClick={loginAsManager}
                 className="w-full bg-green-600 hover:bg-green-700"
+                disabled={isLoading}
               >
-                Login as Manager
+                {isLoading ? "Signing in..." : "Login as Manager"}
               </Button>
               <Button
                 onClick={loginAsMember}
                 className="w-full bg-amber-600 hover:bg-amber-700"
+                disabled={isLoading}
               >
-                Login as Member
+                {isLoading ? "Signing in..." : "Login as Member"}
               </Button>
               <div className="text-xs text-center text-muted-foreground mt-4">
                 Demo accounts use password: "password"
