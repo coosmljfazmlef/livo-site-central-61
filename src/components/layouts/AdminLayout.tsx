@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { 
   Building, 
@@ -102,13 +102,13 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild>
-                        <a 
-                          href={item.url}
+                        <Link 
+                          to={item.url}
                           className={`${window.location.pathname === item.url ? 'bg-sidebar-accent' : ''}`}
                         >
                           <item.icon className="h-5 w-5" />
                           <span>{item.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
