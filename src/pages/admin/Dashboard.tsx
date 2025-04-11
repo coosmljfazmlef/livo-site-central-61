@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { 
   ChartContainer,
-  ChartTooltip,
   ChartTooltipContent
 } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
@@ -246,8 +245,19 @@ const AdminDashboard = () => {
                   />
                   <YAxis yAxisId="left" orientation="left" stroke="#a3a3a3" />
                   <YAxis yAxisId="right" orientation="right" stroke="#a3a3a3" />
-                  <ChartTooltip 
-                    content={(props) => <ChartTooltipContent {...props} />} 
+                  <Tooltip 
+                    content={({ active, payload, label }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <ChartTooltipContent 
+                            active={active}
+                            payload={payload}
+                            label={label}
+                          />
+                        );
+                      }
+                      return null;
+                    }} 
                   />
                   <Bar 
                     dataKey="ticketVolume" 
