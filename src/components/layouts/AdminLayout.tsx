@@ -5,7 +5,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { 
   Building, 
   Users, 
-  Settings, 
   BarChart4, 
   Globe,
   Menu,
@@ -60,6 +59,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
       url: "/admin",
     },
     {
+      title: "Tickets",
+      icon: Ticket,
+      url: "/admin/tickets",
+    },
+    {
       title: "Sites",
       icon: Building,
       url: "/admin/sites",
@@ -73,16 +77,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
       title: "Organization",
       icon: Globe,
       url: "/admin/organization",
-    },
-    {
-      title: "Tickets",
-      icon: Ticket,
-      url: "/admin/tickets",
-    },
-    {
-      title: "Settings",
-      icon: Settings,
-      url: "/admin/settings",
     },
   ];
 
@@ -165,9 +159,6 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
                     </div>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => navigate("/admin/settings")}>
-                    Settings
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={logout}>
                     Log out
                   </DropdownMenuItem>

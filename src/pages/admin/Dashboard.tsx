@@ -1,4 +1,3 @@
-
 import React from "react";
 import { AdminLayout } from "@/components/layouts/AdminLayout";
 import {
@@ -103,8 +102,8 @@ const AdminDashboard = () => {
   return (
     <AdminLayout title="Dashboard">
       <div className="space-y-8">
-        {/* Stats Overview Section */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Stats Overview Section - Only Ticket Status Card */}
+        <div>
           {/* Tickets Stats Card */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -130,53 +129,6 @@ const AdminDashboard = () => {
               </div>
               <div className="mt-4 border-t pt-3 text-center">
                 <p className="text-sm font-medium">Total: {ticketStats.total} tickets</p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Sites Managed Card */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Sites Managed</CardTitle>
-              <div className="bg-green-500 p-2 rounded-md">
-                <Building className="h-4 w-4 text-white" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{sitesCount}</div>
-              <p className="text-sm text-muted-foreground">Properties under management</p>
-            </CardContent>
-          </Card>
-
-          {/* Users by Role Card */}
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium">Users by Role</CardTitle>
-              <div className="bg-amber-500 p-2 rounded-md">
-                <Users className="h-4 w-4 text-white" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {usersByRole.map((roleData, index) => (
-                  <div key={index} className="flex items-center">
-                    <div className="w-24 text-xs font-medium">{roleData.role}</div>
-                    <div className="flex-1">
-                      <div className="h-2 w-full rounded-full bg-muted">
-                        <div
-                          className="h-2 rounded-full bg-primary"
-                          style={{
-                            width: `${Math.min(100, (roleData.count / 500) * 100)}%`,
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <span className="ml-2 text-sm font-medium">{roleData.count}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 border-t pt-3 text-center">
-                <p className="text-sm font-medium">Total: {usersByRole.reduce((sum, role) => sum + role.count, 0)} users</p>
               </div>
             </CardContent>
           </Card>

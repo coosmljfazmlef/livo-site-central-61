@@ -14,7 +14,6 @@ import AdminDashboard from "./pages/admin/Dashboard";
 import AdminSites from "./pages/admin/Sites";
 import AdminUsers from "./pages/admin/Users";
 import AdminOrganization from "./pages/admin/Organization";
-import AdminSettings from "./pages/admin/Settings";
 import AdminTickets from "./pages/admin/Tickets";
 
 // Manager routes
@@ -43,7 +42,6 @@ const App = () => (
           <Route path="/admin/sites" element={<AdminSites />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/organization" element={<AdminOrganization />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
           <Route path="/admin/tickets" element={<AdminTickets />} />
           
           {/* Manager routes */}

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Filter, MoreVertical, Building } from "lucide-react";
+import { Search, Filter, MoreVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,124 +35,79 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 
-// Extended ticket data for the table with site information
+// Simplified ticket data for the table
 const ticketsData = [
   {
     id: "TKT-001",
     title: "Water leak in apartment 302",
-    site: {
-      name: "Sunset Apartments",
-      id: "site-1"
-    },
-    reporter: "John Resident",
+    site: "Sunset Apartments",
     status: "Open",
     priority: "Urgent",
-    created: "Apr 10, 2025",
-    assignee: "Morgan Manager"
+    created: "Apr 10, 2025"
   },
   {
     id: "TKT-002",
     title: "Broken window in unit 204",
-    site: {
-      name: "Ocean View Condos",
-      id: "site-2"
-    },
-    reporter: "Lisa Tenant",
+    site: "Ocean View Condos",
     status: "In Progress",
     priority: "High",
-    created: "Apr 9, 2025",
-    assignee: "Sam Supervisor"
+    created: "Apr 9, 2025"
   },
   {
     id: "TKT-003",
     title: "AC repair in unit 112",
-    site: {
-      name: "Sunset Apartments",
-      id: "site-1"
-    },
-    reporter: "Michael Owner",
+    site: "Sunset Apartments",
     status: "In Progress",
     priority: "Medium",
-    created: "Apr 8, 2025",
-    assignee: "Morgan Manager"
+    created: "Apr 8, 2025"
   },
   {
     id: "TKT-004",
     title: "Replace light bulbs in hallway",
-    site: {
-      name: "Ocean View Condos",
-      id: "site-2"
-    },
-    reporter: "Sarah Resident",
+    site: "Ocean View Condos",
     status: "Open",
     priority: "Low",
-    created: "Apr 7, 2025",
-    assignee: "Sam Supervisor"
+    created: "Apr 7, 2025"
   },
   {
     id: "TKT-005",
     title: "Garbage disposal not working",
-    site: {
-      name: "Sunset Apartments",
-      id: "site-1"
-    },
-    reporter: "David Tenant",
+    site: "Sunset Apartments",
     status: "Resolved",
     priority: "Medium",
-    created: "Apr 5, 2025",
-    assignee: "Morgan Manager"
+    created: "Apr 5, 2025"
   },
   {
     id: "TKT-006",
     title: "Noisy neighbors in unit 505",
-    site: {
-      name: "Ocean View Condos",
-      id: "site-2"
-    },
-    reporter: "Emily Resident",
+    site: "Ocean View Condos",
     status: "Open",
     priority: "Medium",
-    created: "Apr 4, 2025",
-    assignee: null
+    created: "Apr 4, 2025"
   },
   {
     id: "TKT-007",
     title: "Elevator maintenance needed",
-    site: {
-      name: "Mountain View Residences",
-      id: "site-3"
-    },
-    reporter: "James Resident",
+    site: "Mountain View Residences",
     status: "Open",
     priority: "High",
-    created: "Apr 3, 2025",
-    assignee: "Mandy Manager"
+    created: "Apr 3, 2025"
   },
   {
     id: "TKT-008",
     title: "Request to install ceiling fan",
-    site: {
-      name: "Parkview Towers",
-      id: "site-4"
-    },
-    reporter: "Olivia Owner",
+    site: "Parkview Towers",
     status: "In Progress",
     priority: "Low",
-    created: "Apr 2, 2025",
-    assignee: "Patrick Property"
+    created: "Apr 2, 2025"
   },
   {
     id: "TKT-009",
     title: "Pest control needed in unit 402",
-    site: {
-      name: "Riverside Apartments",
-      id: "site-5"
-    },
-    reporter: "Robert Resident",
+    site: "Riverside Apartments",
     status: "Open",
     priority: "High",
-    created: "Apr 1, 2025",
-    assignee: "Robin Residence"
+    created: "Apr 1, 2025"
   },
 ];
 
@@ -193,10 +148,10 @@ const AdminTickets = () => {
   const [priorityFilter, setPriorityFilter] = React.useState("all");
   const [siteFilter, setSiteFilter] = React.useState("all");
 
-  const handleAssign = (ticketId: string) => {
+  const handleViewDetails = (ticketId: string) => {
     toast({
-      title: "Ticket Assigned",
-      description: `Ticket ${ticketId} has been assigned successfully.`,
+      title: "View Ticket Details",
+      description: `Viewing details for ticket ${ticketId}.`,
     });
   };
 
@@ -205,8 +160,7 @@ const AdminTickets = () => {
     // Search filter
     const matchesSearch = searchTerm === "" || 
       ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.reporter.toLowerCase().includes(searchTerm.toLowerCase());
+      ticket.id.toLowerCase().includes(searchTerm.toLowerCase());
     
     // Status filter
     const matchesStatus = statusFilter === "all" || 
@@ -218,7 +172,7 @@ const AdminTickets = () => {
     
     // Site filter
     const matchesSite = siteFilter === "all" || 
-      ticket.site.id === siteFilter;
+      ticket.site.toLowerCase().includes(siteFilter.toLowerCase());
     
     return matchesSearch && matchesStatus && matchesPriority && matchesSite;
   });
@@ -270,11 +224,11 @@ const AdminTickets = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Sites</SelectItem>
-                  <SelectItem value="site-1">Sunset Apartments</SelectItem>
-                  <SelectItem value="site-2">Ocean View Condos</SelectItem>
-                  <SelectItem value="site-3">Mountain View Residences</SelectItem>
-                  <SelectItem value="site-4">Parkview Towers</SelectItem>
-                  <SelectItem value="site-5">Riverside Apartments</SelectItem>
+                  <SelectItem value="sunset">Sunset Apartments</SelectItem>
+                  <SelectItem value="ocean">Ocean View Condos</SelectItem>
+                  <SelectItem value="mountain">Mountain View Residences</SelectItem>
+                  <SelectItem value="park">Parkview Towers</SelectItem>
+                  <SelectItem value="riverside">Riverside Apartments</SelectItem>
                 </SelectContent>
               </Select>
               <Button variant="outline" size="icon">
@@ -290,24 +244,17 @@ const AdminTickets = () => {
               <TableRow>
                 <TableHead className="w-[80px]">ID</TableHead>
                 <TableHead>Title</TableHead>
-                <TableHead>
-                  <div className="flex items-center gap-2">
-                    <Building className="h-4 w-4" />
-                    <span>Site</span>
-                  </div>
-                </TableHead>
-                <TableHead>Reporter</TableHead>
-                <TableHead>Assignee</TableHead>
+                <TableHead>Site</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Priority</TableHead>
                 <TableHead>Created</TableHead>
-                <TableHead></TableHead>
+                <TableHead className="w-[50px]"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredTickets.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={9} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                     No tickets found that match your filters.
                   </TableCell>
                 </TableRow>
@@ -316,9 +263,7 @@ const AdminTickets = () => {
                   <TableRow key={ticket.id}>
                     <TableCell className="font-medium">{ticket.id}</TableCell>
                     <TableCell className="max-w-[200px] truncate">{ticket.title}</TableCell>
-                    <TableCell>{ticket.site.name}</TableCell>
-                    <TableCell>{ticket.reporter}</TableCell>
-                    <TableCell>{ticket.assignee || "Unassigned"}</TableCell>
+                    <TableCell>{ticket.site}</TableCell>
                     <TableCell>
                       <StatusBadge status={ticket.status} />
                     </TableCell>
@@ -334,9 +279,10 @@ const AdminTickets = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>View Details</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleViewDetails(ticket.id)}>
+                            View Details
+                          </DropdownMenuItem>
                           <DropdownMenuItem>Update Status</DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => handleAssign(ticket.id)}>Assign Ticket</DropdownMenuItem>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem>Close Ticket</DropdownMenuItem>
                         </DropdownMenuContent>

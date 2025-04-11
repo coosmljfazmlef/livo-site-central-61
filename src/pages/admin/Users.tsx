@@ -1,4 +1,3 @@
-
 import React from "react";
 import { AdminLayout } from "../../components/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,7 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MoreHorizontal, Plus, Search } from "lucide-react";
+import { MoreHorizontal, UserPlus, Search } from "lucide-react";
 
 const mockUsers = [
   {
@@ -76,7 +75,7 @@ const AdminUsers = () => {
             />
           </div>
           <Button>
-            <Plus className="mr-2 h-4 w-4" /> Add User
+            <UserPlus className="mr-2 h-4 w-4" /> Invite User
           </Button>
         </div>
 
