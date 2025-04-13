@@ -49,7 +49,7 @@ export const MemberLayout: React.FC<MemberLayoutProps> = ({
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Tickets</SidebarGroupLabel>
+              
               <SidebarGroupContent>
                 <SidebarMenu>
                   {menuItems.map(item => <SidebarMenuItem key={item.title}>
@@ -63,17 +63,7 @@ export const MemberLayout: React.FC<MemberLayoutProps> = ({
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
-            <SidebarGroup>
-              <SidebarGroupLabel>My Site</SidebarGroupLabel>
-              <SidebarGroupContent className="px-4">
-                {user?.sites.map(site => <div key={site.id} className="text-sm rounded-md border p-3 mb-2">
-                    <div className="font-medium">{site.name}</div>
-                    <div className="text-xs text-muted-foreground mt-1">
-                      {site.address}, {site.city}, {site.state} {site.zipCode}
-                    </div>
-                  </div>)}
-              </SidebarGroupContent>
-            </SidebarGroup>
+            
           </SidebarContent>
           <SidebarFooter className="border-t p-4">
             <div className="flex items-center">
