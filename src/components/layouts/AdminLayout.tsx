@@ -1,87 +1,53 @@
-
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { 
-  Building, 
-  Users, 
-  BarChart4, 
-  Globe,
-  Menu,
-  User,
-  LogOut,
-  Ticket
-} from "lucide-react";
+import { Building, Users, BarChart4, Globe, Menu, User, LogOut, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarProvider,
-  SidebarTrigger,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-} from "@/components/ui/sidebar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 interface AdminLayoutProps {
   children: React.ReactNode;
   title: string;
 }
-
-export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => {
-  const { user, logout } = useAuth();
+export const AdminLayout: React.FC<AdminLayoutProps> = ({
+  children,
+  title
+}) => {
+  const {
+    user,
+    logout
+  } = useAuth();
   const navigate = useNavigate();
-  
+
   // Ensure user is admin
   React.useEffect(() => {
     if (!user || user.role !== "admin") {
       navigate("/login");
     }
   }, [user, navigate]);
-
-  const menuItems = [
-    {
-      title: "Dashboard",
-      icon: BarChart4,
-      url: "/admin",
-    },
-    {
-      title: "Tickets",
-      icon: Ticket,
-      url: "/admin/tickets",
-    },
-    {
-      title: "Sites",
-      icon: Building,
-      url: "/admin/sites",
-    },
-    {
-      title: "Users",
-      icon: Users,
-      url: "/admin/users",
-    },
-    {
-      title: "Organization",
-      icon: Globe,
-      url: "/admin/organization",
-    },
-  ];
-
-  return (
-    <SidebarProvider>
+  const menuItems = [{
+    title: "Dashboard",
+    icon: BarChart4,
+    url: "/admin"
+  }, {
+    title: "Tickets",
+    icon: Ticket,
+    url: "/admin/tickets"
+  }, {
+    title: "Sites",
+    icon: Building,
+    url: "/admin/sites"
+  }, {
+    title: "Users",
+    icon: Users,
+    url: "/admin/users"
+  }, {
+    title: "Organization",
+    icon: Globe,
+    url: "/admin/organization"
+  }];
+  return <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <Sidebar>
           <SidebarHeader className="border-b p-4">
@@ -95,22 +61,17 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
-              <SidebarGroupLabel>Management</SidebarGroupLabel>
+              
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {menuItems.map((item) => (
-                    <SidebarMenuItem key={item.title}>
+                  {menuItems.map(item => <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild>
-                        <Link 
-                          to={item.url}
-                          className={`${window.location.pathname === item.url ? 'bg-sidebar-accent' : ''}`}
-                        >
+                        <Link to={item.url} className={`${window.location.pathname === item.url ? 'bg-sidebar-accent' : ''}`}>
                           <item.icon className="h-5 w-5" />
                           <span>{item.title}</span>
                         </Link>
                       </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
+                    </SidebarMenuItem>)}
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
@@ -125,12 +86,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
                 <p className="text-sm font-medium leading-none truncate">{user?.name}</p>
                 <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
               </div>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="ml-auto" 
-                onClick={logout}
-              >
+              <Button variant="ghost" size="icon" className="ml-auto" onClick={logout}>
                 <LogOut className="h-5 w-5" />
               </Button>
             </div>
@@ -142,35 +98,12 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children, title }) => 
               <Menu className="h-5 w-5" />
             </SidebarTrigger>
             <h1 className="text-xl font-semibold">{title}</h1>
-            <div className="ml-auto flex items-center gap-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <User className="h-5 w-5" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <div className="flex items-center justify-start p-2">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user?.name}</p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
-                    </div>
-                  </div>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={logout}>
-                    Log out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            
           </header>
           <main className="flex-1 overflow-auto p-6">
             {children}
           </main>
         </div>
       </div>
-    </SidebarProvider>
-  );
+    </SidebarProvider>;
 };
