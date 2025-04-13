@@ -1,38 +1,28 @@
-
 import React from "react";
 import { AdminLayout } from "../../components/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useToast } from "@/components/ui/use-toast";
-
 const AdminOrganization = () => {
-  const { toast } = useToast();
-  
+  const {
+    toast
+  } = useToast();
   const handleSave = () => {
     toast({
       title: "Settings updated",
-      description: "Your organization settings have been saved successfully.",
+      description: "Your organization settings have been saved successfully."
     });
   };
-
-  return (
-    <AdminLayout title="Organization">
+  return <AdminLayout title="Organization">
       <div className="space-y-6">
         <Tabs defaultValue="general" className="w-full">
           <TabsList>
             <TabsTrigger value="general">General</TabsTrigger>
-            <TabsTrigger value="branding">Branding</TabsTrigger>
+            
             <TabsTrigger value="subscription">Subscription</TabsTrigger>
           </TabsList>
           
@@ -152,8 +142,8 @@ const AdminOrganization = () => {
                     <div className="flex items-center gap-3">
                       <div className="bg-gray-100 p-2 rounded">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2"/>
-                          <path d="M2 10H22" stroke="currentColor" strokeWidth="2"/>
+                          <rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="2" />
+                          <path d="M2 10H22" stroke="currentColor" strokeWidth="2" />
                         </svg>
                       </div>
                       <div>
@@ -173,8 +163,6 @@ const AdminOrganization = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </AdminLayout>
-  );
+    </AdminLayout>;
 };
-
 export default AdminOrganization;
