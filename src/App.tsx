@@ -23,6 +23,7 @@ import ManagerTickets from "./pages/manager/Tickets";
 
 // Member routes
 import MemberDashboard from "./pages/member/Dashboard";
+import MemberTickets from "./pages/member/Tickets";
 import MemberCreateTicket from "./pages/member/CreateTicket";
 import MemberTicketDetails from "./pages/member/TicketDetails";
 
@@ -51,6 +52,7 @@ const App = () => (
           
           {/* Member routes */}
           <Route path="/member" element={<MemberDashboard />} />
+          <Route path="/member/tickets" element={<MemberTickets />} />
           <Route path="/member/create-ticket" element={<MemberCreateTicket />} />
           <Route path="/member/ticket/:ticketId" element={<MemberTicketDetails />} />
           

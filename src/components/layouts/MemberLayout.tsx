@@ -1,10 +1,9 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { 
   BarChart4, 
-  PlusCircle, 
   Ticket,
   Menu,
   BellRing,
@@ -58,9 +57,9 @@ export const MemberLayout: React.FC<MemberLayoutProps> = ({ children, title }) =
       url: "/member",
     },
     {
-      title: "Create Ticket",
-      icon: PlusCircle,
-      url: "/member/create-ticket",
+      title: "Tickets",
+      icon: Ticket,
+      url: "/member/tickets",
     },
   ];
 
@@ -85,13 +84,13 @@ export const MemberLayout: React.FC<MemberLayoutProps> = ({ children, title }) =
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild>
-                        <a 
-                          href={item.url}
-                          className={`${window.location.pathname === item.url ? 'bg-sidebar-accent' : ''}`}
+                        <Link 
+                          to={item.url}
+                          className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${window.location.pathname === item.url ? 'bg-sidebar-accent' : ''}`}
                         >
                           <item.icon className="h-5 w-5" />
                           <span>{item.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
