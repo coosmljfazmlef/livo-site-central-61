@@ -1,3 +1,4 @@
+
 import React from "react";
 import { AdminLayout } from "@/components/layouts/AdminLayout";
 import {
@@ -17,17 +18,11 @@ import {
 } from "@/components/ui/table";
 import { 
   Ticket, 
-  Building, 
-  Users, 
+  AlertTriangle,
   CheckCircle, 
   Clock, 
   AlertCircle 
 } from "lucide-react";
-import { 
-  ChartContainer,
-  ChartTooltipContent
-} from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 
 // Mock data for the dashboard
 const ticketStats = {
@@ -37,14 +32,6 @@ const ticketStats = {
   total: 131
 };
 
-const sitesCount = 12;
-
-const usersByRole = [
-  { role: "Admin", count: 5 },
-  { role: "Manager", count: 18 },
-  { role: "Member", count: 464 },
-];
-
 const recentTickets = [
   { id: "T-1024", title: "Water leak in apartment 302", site: "Sunset Apartments", status: "Open", updatedAt: "2h ago" },
   { id: "T-1023", title: "Elevator malfunction", site: "Ocean View Condos", status: "In Progress", updatedAt: "4h ago" },
@@ -53,12 +40,12 @@ const recentTickets = [
   { id: "T-1020", title: "Lighting issues in parking garage", site: "Riverside Towers", status: "Resolved", updatedAt: "1d ago" },
 ];
 
-const sitesHealth = [
-  { name: "Sunset Apartments", ticketVolume: 32, resolutionRate: 78 },
-  { name: "Ocean View Condos", ticketVolume: 28, resolutionRate: 85 },
-  { name: "Mountain View Residences", ticketVolume: 23, resolutionRate: 91 },
-  { name: "City Center Plaza", ticketVolume: 18, resolutionRate: 72 },
-  { name: "Riverside Towers", ticketVolume: 30, resolutionRate: 80 },
+const urgentTickets = [
+  { id: "T-1033", title: "Major water leak in basement", site: "Sunset Apartments", priority: "Urgent", status: "Open", createdAt: "3h ago" },
+  { id: "T-1031", title: "Fire alarm system failure", site: "City Center Plaza", priority: "Urgent", status: "Open", createdAt: "5h ago" },
+  { id: "T-1029", title: "Electrical outage - north wing", site: "Mountain View Residences", priority: "Urgent", status: "In Progress", createdAt: "8h ago" },
+  { id: "T-1022", title: "Elevator stuck with passengers", site: "Ocean View Condos", priority: "Urgent", status: "In Progress", createdAt: "10h ago" },
+  { id: "T-1018", title: "Gas leak reported - building 3", site: "Riverside Towers", priority: "Urgent", status: "Open", createdAt: "12h ago" },
 ];
 
 const getStatusColor = (status: string) => {
@@ -85,17 +72,6 @@ const getStatusIcon = (status: string) => {
     default:
       return null;
   }
-};
-
-const chartConfig = {
-  volume: {
-    label: "Ticket Volume",
-    theme: { light: "#93c5fd", dark: "#3b82f6" },
-  },
-  resolution: {
-    label: "Resolution Rate (%)",
-    theme: { light: "#86efac", dark: "#22c55e" },
-  },
 };
 
 const AdminDashboard = () => {
@@ -173,74 +149,46 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Sites Health Table */}
+        {/* Urgent Tickets Section - Replacing Sites Health */}
         <Card>
-          <CardHeader>
-            <CardTitle>Sites Health</CardTitle>
-            <CardDescription>
-              Ticket volume and resolution rate by site
+          <CardHeader className="flex flex-row items-center space-y-0 pb-2">
+            <div className="flex items-center">
+              <AlertTriangle className="h-5 w-5 mr-2 text-red-500" />
+              <CardTitle>Urgent Tickets</CardTitle>
+            </div>
+            <CardDescription className="ml-7">
+              Tickets requiring immediate attention
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="relative h-80 w-full">
-              <ChartContainer 
-                config={chartConfig}
-                className="h-80"
-              >
-                <BarChart data={sitesHealth} margin={{ top: 10, right: 30, left: 0, bottom: 70 }}>
-                  <XAxis 
-                    dataKey="name" 
-                    angle={-45} 
-                    textAnchor="end"
-                    height={70}
-                    tickMargin={25}
-                  />
-                  <YAxis yAxisId="left" orientation="left" stroke="#a3a3a3" />
-                  <YAxis yAxisId="right" orientation="right" stroke="#a3a3a3" />
-                  <Tooltip 
-                    content={({ active, payload, label }) => {
-                      if (active && payload && payload.length) {
-                        return (
-                          <ChartTooltipContent 
-                            active={active}
-                            payload={payload}
-                            label={label}
-                          />
-                        );
-                      }
-                      return null;
-                    }} 
-                  />
-                  <Bar 
-                    dataKey="ticketVolume" 
-                    name="Ticket Volume" 
-                    fill="var(--color-volume)"
-                    yAxisId="left" 
-                  />
-                  <Bar 
-                    dataKey="resolutionRate" 
-                    name="Resolution Rate (%)" 
-                    fill="var(--color-resolution)"
-                    yAxisId="right"
-                  />
-                </BarChart>
-              </ChartContainer>
-            </div>
-            
-            <Table className="mt-6">
+            <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Site Name</TableHead>
-                  <TableHead>Ticket Volume</TableHead>
-                  <TableHead>Resolution Rate</TableHead>
+                  <TableHead>Ticket</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Site</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Created</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {sitesHealth.map((site) => (
-                  <TableRow key={site.name}>
-                    <TableCell className="font-medium">{site.name}</TableCell>
-                    <TableCell>{site.ticketVolume} tickets</TableCell>
-                    <TableCell>{site.resolutionRate}%</TableCell>
+                {urgentTickets.map((ticket) => (
+                  <TableRow key={ticket.id} className="bg-red-50">
+                    <TableCell className="font-medium">{ticket.id}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center">
+                        <AlertTriangle className="h-4 w-4 text-red-500 mr-2" />
+                        {ticket.title}
+                      </div>
+                    </TableCell>
+                    <TableCell>{ticket.site}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center">
+                        <div className={`h-2 w-2 rounded-full ${getStatusColor(ticket.status)} mr-2`} />
+                        <span>{ticket.status}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>{ticket.createdAt}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
