@@ -167,14 +167,7 @@ const AdminSites = () => {
             </CardContent>
           </Card>
           
-          <Card>
-            
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {sitesData.reduce((sum, site) => sum + site.units, 0)}
-              </div>
-            </CardContent>
-          </Card>
+          
           
           <Card>
             <CardHeader className="pb-2">
