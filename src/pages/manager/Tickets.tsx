@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { ManagerLayout } from "@/components/layouts/ManagerLayout";
 import {
   Card,
@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, Filter, MoreVertical } from "lucide-react";
+import { Search, Filter, MoreVertical, Download, Plus } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,6 +33,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 // Ticket data for the table
 const ticketsData = [
@@ -96,13 +104,13 @@ const ticketsData = [
 const PriorityBadge = ({ priority }: { priority: string }) => {
   switch (priority) {
     case "Urgent":
-      return <Badge className="ticket-priority-urgent">Urgent</Badge>;
+      return <Badge className="bg-red-100 text-red-800 hover:bg-red-100 border-red-200">Urgent</Badge>;
     case "High":
-      return <Badge className="ticket-priority-high">High</Badge>;
+      return <Badge className="bg-orange-100 text-orange-800 hover:bg-orange-100 border-orange-200">High</Badge>;
     case "Medium":
-      return <Badge className="ticket-priority-medium">Medium</Badge>;
+      return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100 border-yellow-200">Medium</Badge>;
     case "Low":
-      return <Badge className="ticket-priority-low">Low</Badge>;
+      return <Badge className="bg-green-100 text-green-800 hover:bg-green-100 border-green-200">Low</Badge>;
     default:
       return <Badge variant="outline">{priority}</Badge>;
   }
@@ -123,9 +131,30 @@ const StatusBadge = ({ status }: { status: string }) => {
 };
 
 const ManagerTickets = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [siteFilter, setSiteFilter] = useState("all");
+
   return (
     <ManagerLayout title="Manage Tickets">
       <div className="space-y-6">
+        {/* Header with action buttons */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h1 className="text-2xl font-bold tracking-tight">All Tickets</h1>
+          <div className="flex items-center gap-2">
+            <Button size="sm" variant="outline" className="h-9">
+              <Download className="h-4 w-4 mr-1" />
+              Export
+            </Button>
+            <Button size="sm" className="h-9">
+              <Plus className="h-4 w-4 mr-1" />
+              Create Ticket
+            </Button>
+          </div>
+        </div>
+
+        {/* Filters card */}
         <Card>
           <CardHeader className="pb-3">
             <CardTitle>Ticket Filters</CardTitle>
@@ -137,9 +166,11 @@ const ManagerTickets = () => {
                 <Input
                   placeholder="Search tickets..."
                   className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <Select>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-full md:w-40">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
@@ -150,7 +181,7 @@ const ManagerTickets = () => {
                   <SelectItem value="resolved">Resolved</SelectItem>
                 </SelectContent>
               </Select>
-              <Select>
+              <Select value={priorityFilter} onValueChange={setPriorityFilter}>
                 <SelectTrigger className="w-full md:w-40">
                   <SelectValue placeholder="Priority" />
                 </SelectTrigger>
@@ -162,7 +193,7 @@ const ManagerTickets = () => {
                   <SelectItem value="low">Low</SelectItem>
                 </SelectContent>
               </Select>
-              <Select>
+              <Select value={siteFilter} onValueChange={setSiteFilter}>
                 <SelectTrigger className="w-full md:w-40">
                   <SelectValue placeholder="Site" />
                 </SelectTrigger>
@@ -179,6 +210,7 @@ const ManagerTickets = () => {
           </CardContent>
         </Card>
 
+        {/* Tickets table */}
         <div className="rounded-md border">
           <Table>
             <TableHeader>
@@ -228,6 +260,27 @@ const ManagerTickets = () => {
             </TableBody>
           </Table>
         </div>
+
+        {/* Pagination */}
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">2</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </ManagerLayout>
   );
