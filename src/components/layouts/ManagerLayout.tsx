@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { 
   BarChart4, 
@@ -85,13 +85,13 @@ export const ManagerLayout: React.FC<ManagerLayoutProps> = ({ children, title })
                   {menuItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton asChild>
-                        <a 
-                          href={item.url}
-                          className={`${window.location.pathname === item.url ? 'bg-sidebar-accent' : ''}`}
+                        <Link 
+                          to={item.url}
+                          className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm ${window.location.pathname === item.url ? 'bg-sidebar-accent' : ''}`}
                         >
                           <item.icon className="h-5 w-5" />
                           <span>{item.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
@@ -105,10 +105,10 @@ export const ManagerLayout: React.FC<ManagerLayoutProps> = ({ children, title })
                   {user?.sites.map((site) => (
                     <SidebarMenuItem key={site.id}>
                       <SidebarMenuButton asChild>
-                        <a href={`/manager/site/${site.id}`}>
+                        <Link to={`/manager/site/${site.id}`} className="flex items-center gap-3 rounded-md px-3 py-2 text-sm">
                           <Building className="h-5 w-5" />
                           <span>{site.name}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   ))}
