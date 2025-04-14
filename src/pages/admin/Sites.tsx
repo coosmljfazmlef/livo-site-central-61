@@ -146,40 +146,7 @@ const AdminSites = () => {
   return <AdminLayout title="Manage Sites">
       <div className="space-y-6">
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Total Sites</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{sitesData.length}</div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Active Sites</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-500">
-                {sitesData.filter(s => s.status === "active").length}
-              </div>
-            </CardContent>
-          </Card>
-          
-          
-          
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium">Open Tickets</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-amber-500">
-                {sitesData.reduce((sum, site) => sum + site.openTickets, 0)}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+        
 
         {/* Controls */}
         <div className="flex flex-col md:flex-row justify-between gap-4">
