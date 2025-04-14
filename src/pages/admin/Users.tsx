@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState } from "react";
 import { AdminLayout } from "../../components/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +25,10 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { MoreHorizontal, UserPlus, Search } from "lucide-react";
+import { MoreHorizontal, UserPlus, Search, Users, Shield } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { UserRole } from "@/types";
 
 const mockUsers = [
   {
@@ -62,6 +66,44 @@ const mockUsers = [
 ];
 
 const AdminUsers = () => {
+  const { toast } = useToast();
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<{id: string, name: string} | null>(null);
+  const [dialogType, setDialogType] = useState<"changeSites" | "changeRole" | "delete">("changeSites");
+  
+  const handleAction = (user: typeof mockUsers[0], action: "changeSites" | "changeRole" | "delete") => {
+    setSelectedUser({id: user.id, name: user.name});
+    setDialogType(action);
+    setDialogOpen(true);
+  };
+  
+  const confirmAction = () => {
+    if (!selectedUser) return;
+    
+    switch(dialogType) {
+      case "changeSites":
+        toast({
+          title: "Sites Updated",
+          description: `Site assignments for ${selectedUser.name} have been updated.`
+        });
+        break;
+      case "changeRole":
+        toast({
+          title: "Role Updated",
+          description: `Role for ${selectedUser.name} has been updated.`
+        });
+        break;
+      case "delete":
+        toast({
+          title: "User Deleted",
+          description: `${selectedUser.name} has been deleted.`
+        });
+        break;
+    }
+    
+    setDialogOpen(false);
+  };
+
   return (
     <AdminLayout title="Users">
       <div className="space-y-4">
@@ -138,9 +180,24 @@ const AdminUsers = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem>Reset Password</DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
+                          <DropdownMenuItem 
+                            className="flex items-center gap-2"
+                            onClick={() => handleAction(user, "changeSites", "Change Sites")}
+                          >
+                            <Users className="h-4 w-4" />
+                            Change Sites
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            className="flex items-center gap-2"
+                            onClick={() => handleAction(user, "changeRole", "Change Role")}
+                          >
+                            <Shield className="h-4 w-4" />
+                            Change Role
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            className="text-red-600 flex items-center gap-2"
+                            onClick={() => handleAction(user, "delete", "Delete")}
+                          >
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -153,6 +210,51 @@ const AdminUsers = () => {
           </CardContent>
         </Card>
       </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {dialogType === "changeSites" && "Change Site Access"}
+              {dialogType === "changeRole" && "Change User Role"}
+              {dialogType === "delete" && "Delete User"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            {selectedUser && (
+              <p>
+                {dialogType === "changeSites" && `Update site access for ${selectedUser.name}?`}
+                {dialogType === "changeRole" && `Change role for ${selectedUser.name}?`}
+                {dialogType === "delete" && `Are you sure you want to delete ${selectedUser.name}?`}
+              </p>
+            )}
+            {dialogType === "changeRole" && (
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center space-x-2">
+                  <input type="radio" id="role-admin" name="role" value="admin" className="h-4 w-4" />
+                  <label htmlFor="role-admin">Admin</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input type="radio" id="role-manager" name="role" value="manager" className="h-4 w-4" />
+                  <label htmlFor="role-manager">Manager</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <input type="radio" id="role-member" name="role" value="member" className="h-4 w-4" defaultChecked />
+                  <label htmlFor="role-member">Member</label>
+                </div>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={confirmAction}>
+              Confirm
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AdminLayout>
   );
 };
