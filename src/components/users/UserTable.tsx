@@ -1,15 +1,6 @@
-
 import React from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { UserRow } from "./UserRow";
-
 type User = {
   id: string;
   name: string;
@@ -19,20 +10,17 @@ type User = {
   status: string;
   avatar: string;
 };
-
 interface UserTableProps {
   users: User[];
   onUpdateRole: (userId: string) => void;
   onDeactivateUser: (userId: string) => void;
 }
-
-export const UserTable: React.FC<UserTableProps> = ({ 
-  users, 
-  onUpdateRole, 
-  onDeactivateUser 
+export const UserTable: React.FC<UserTableProps> = ({
+  users,
+  onUpdateRole,
+  onDeactivateUser
 }) => {
-  return (
-    <div className="rounded-md border overflow-hidden">
+  return <div className="rounded-md border overflow-hidden bg-white">
       <Table>
         <TableHeader>
           <TableRow>
@@ -45,16 +33,8 @@ export const UserTable: React.FC<UserTableProps> = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {users.map(user => (
-            <UserRow 
-              key={user.id} 
-              user={user} 
-              onUpdateRole={onUpdateRole} 
-              onDeactivateUser={onDeactivateUser} 
-            />
-          ))}
+          {users.map(user => <UserRow key={user.id} user={user} onUpdateRole={onUpdateRole} onDeactivateUser={onDeactivateUser} />)}
         </TableBody>
       </Table>
-    </div>
-  );
+    </div>;
 };
