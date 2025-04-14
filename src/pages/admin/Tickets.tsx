@@ -1,118 +1,87 @@
-
 import React from "react";
 import { AdminLayout } from "@/components/layouts/AdminLayout";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Search, Filter, MoreVertical } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 
 // Simplified ticket data for the table
-const ticketsData = [
-  {
-    id: "TKT-001",
-    title: "Water leak in apartment 302",
-    site: "Sunset Apartments",
-    status: "Open",
-    priority: "Urgent",
-    created: "Apr 10, 2025"
-  },
-  {
-    id: "TKT-002",
-    title: "Broken window in unit 204",
-    site: "Ocean View Condos",
-    status: "In Progress",
-    priority: "High",
-    created: "Apr 9, 2025"
-  },
-  {
-    id: "TKT-003",
-    title: "AC repair in unit 112",
-    site: "Sunset Apartments",
-    status: "In Progress",
-    priority: "Medium",
-    created: "Apr 8, 2025"
-  },
-  {
-    id: "TKT-004",
-    title: "Replace light bulbs in hallway",
-    site: "Ocean View Condos",
-    status: "Open",
-    priority: "Low",
-    created: "Apr 7, 2025"
-  },
-  {
-    id: "TKT-005",
-    title: "Garbage disposal not working",
-    site: "Sunset Apartments",
-    status: "Resolved",
-    priority: "Medium",
-    created: "Apr 5, 2025"
-  },
-  {
-    id: "TKT-006",
-    title: "Noisy neighbors in unit 505",
-    site: "Ocean View Condos",
-    status: "Open",
-    priority: "Medium",
-    created: "Apr 4, 2025"
-  },
-  {
-    id: "TKT-007",
-    title: "Elevator maintenance needed",
-    site: "Mountain View Residences",
-    status: "Open",
-    priority: "High",
-    created: "Apr 3, 2025"
-  },
-  {
-    id: "TKT-008",
-    title: "Request to install ceiling fan",
-    site: "Parkview Towers",
-    status: "In Progress",
-    priority: "Low",
-    created: "Apr 2, 2025"
-  },
-  {
-    id: "TKT-009",
-    title: "Pest control needed in unit 402",
-    site: "Riverside Apartments",
-    status: "Open",
-    priority: "High",
-    created: "Apr 1, 2025"
-  },
-];
+const ticketsData = [{
+  id: "TKT-001",
+  title: "Water leak in apartment 302",
+  site: "Sunset Apartments",
+  status: "Open",
+  priority: "Urgent",
+  created: "Apr 10, 2025"
+}, {
+  id: "TKT-002",
+  title: "Broken window in unit 204",
+  site: "Ocean View Condos",
+  status: "In Progress",
+  priority: "High",
+  created: "Apr 9, 2025"
+}, {
+  id: "TKT-003",
+  title: "AC repair in unit 112",
+  site: "Sunset Apartments",
+  status: "In Progress",
+  priority: "Medium",
+  created: "Apr 8, 2025"
+}, {
+  id: "TKT-004",
+  title: "Replace light bulbs in hallway",
+  site: "Ocean View Condos",
+  status: "Open",
+  priority: "Low",
+  created: "Apr 7, 2025"
+}, {
+  id: "TKT-005",
+  title: "Garbage disposal not working",
+  site: "Sunset Apartments",
+  status: "Resolved",
+  priority: "Medium",
+  created: "Apr 5, 2025"
+}, {
+  id: "TKT-006",
+  title: "Noisy neighbors in unit 505",
+  site: "Ocean View Condos",
+  status: "Open",
+  priority: "Medium",
+  created: "Apr 4, 2025"
+}, {
+  id: "TKT-007",
+  title: "Elevator maintenance needed",
+  site: "Mountain View Residences",
+  status: "Open",
+  priority: "High",
+  created: "Apr 3, 2025"
+}, {
+  id: "TKT-008",
+  title: "Request to install ceiling fan",
+  site: "Parkview Towers",
+  status: "In Progress",
+  priority: "Low",
+  created: "Apr 2, 2025"
+}, {
+  id: "TKT-009",
+  title: "Pest control needed in unit 402",
+  site: "Riverside Apartments",
+  status: "Open",
+  priority: "High",
+  created: "Apr 1, 2025"
+}];
 
 // Function to render priority badge
-const PriorityBadge = ({ priority }: { priority: string }) => {
+const PriorityBadge = ({
+  priority
+}: {
+  priority: string;
+}) => {
   switch (priority) {
     case "Urgent":
       return <Badge className="bg-red-100 text-red-800 hover:bg-red-100 border-red-200">Urgent</Badge>;
@@ -128,7 +97,11 @@ const PriorityBadge = ({ priority }: { priority: string }) => {
 };
 
 // Function to render status badge
-const StatusBadge = ({ status }: { status: string }) => {
+const StatusBadge = ({
+  status
+}: {
+  status: string;
+}) => {
   switch (status) {
     case "Open":
       return <Badge variant="outline" className="bg-blue-100 text-blue-800 hover:bg-blue-100 border-blue-200">Open</Badge>;
@@ -140,45 +113,37 @@ const StatusBadge = ({ status }: { status: string }) => {
       return <Badge variant="outline">{status}</Badge>;
   }
 };
-
 const AdminTickets = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [searchTerm, setSearchTerm] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState("all");
   const [priorityFilter, setPriorityFilter] = React.useState("all");
   const [siteFilter, setSiteFilter] = React.useState("all");
-
   const handleViewDetails = (ticketId: string) => {
     toast({
       title: "View Ticket Details",
-      description: `Viewing details for ticket ${ticketId}.`,
+      description: `Viewing details for ticket ${ticketId}.`
     });
   };
 
   // Filter tickets based on search and filters
-  const filteredTickets = ticketsData.filter((ticket) => {
+  const filteredTickets = ticketsData.filter(ticket => {
     // Search filter
-    const matchesSearch = searchTerm === "" || 
-      ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.id.toLowerCase().includes(searchTerm.toLowerCase());
-    
+    const matchesSearch = searchTerm === "" || ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) || ticket.id.toLowerCase().includes(searchTerm.toLowerCase());
+
     // Status filter
-    const matchesStatus = statusFilter === "all" || 
-      ticket.status.toLowerCase() === statusFilter.toLowerCase();
-    
+    const matchesStatus = statusFilter === "all" || ticket.status.toLowerCase() === statusFilter.toLowerCase();
+
     // Priority filter
-    const matchesPriority = priorityFilter === "all" || 
-      ticket.priority.toLowerCase() === priorityFilter.toLowerCase();
-    
+    const matchesPriority = priorityFilter === "all" || ticket.priority.toLowerCase() === priorityFilter.toLowerCase();
+
     // Site filter
-    const matchesSite = siteFilter === "all" || 
-      ticket.site.toLowerCase().includes(siteFilter.toLowerCase());
-    
+    const matchesSite = siteFilter === "all" || ticket.site.toLowerCase().includes(siteFilter.toLowerCase());
     return matchesSearch && matchesStatus && matchesPriority && matchesSite;
   });
-
-  return (
-    <AdminLayout title="All Tickets">
+  return <AdminLayout title="All Tickets">
       <div className="space-y-6">
         <Card>
           <CardHeader className="pb-3">
@@ -188,12 +153,7 @@ const AdminTickets = () => {
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center bg-background border rounded-md w-full md:w-64">
                 <Search className="ml-2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search tickets..."
-                  className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                <Input placeholder="Search tickets..." className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-full md:w-40">
@@ -238,7 +198,7 @@ const AdminTickets = () => {
           </CardContent>
         </Card>
 
-        <div className="rounded-md border overflow-hidden">
+        <div className="rounded-md border overflow-hidden bg-white">
           <Table>
             <TableHeader>
               <TableRow>
@@ -252,15 +212,11 @@ const AdminTickets = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredTickets.length === 0 ? (
-                <TableRow>
+              {filteredTickets.length === 0 ? <TableRow>
                   <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                     No tickets found that match your filters.
                   </TableCell>
-                </TableRow>
-              ) : (
-                filteredTickets.map((ticket) => (
-                  <TableRow key={ticket.id}>
+                </TableRow> : filteredTickets.map(ticket => <TableRow key={ticket.id}>
                     <TableCell className="font-medium">{ticket.id}</TableCell>
                     <TableCell className="max-w-[200px] truncate">{ticket.title}</TableCell>
                     <TableCell>{ticket.site}</TableCell>
@@ -288,15 +244,11 @@ const AdminTickets = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
-                  </TableRow>
-                ))
-              )}
+                  </TableRow>)}
             </TableBody>
           </Table>
         </div>
       </div>
-    </AdminLayout>
-  );
+    </AdminLayout>;
 };
-
 export default AdminTickets;
