@@ -1,7 +1,8 @@
+
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { Building, Users, BarChart4, Globe, Menu, User, LogOut, Ticket } from "lucide-react";
+import { Building, Users, Globe, Menu, User, LogOut, Ticket } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from "@/components/ui/sidebar";
@@ -26,27 +27,24 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({
       navigate("/login");
     }
   }, [user, navigate]);
-  const menuItems = [{
-    title: "Dashboard",
-    icon: BarChart4,
-    url: "/admin"
-  }, {
-    title: "Tickets",
-    icon: Ticket,
-    url: "/admin/tickets"
-  }, {
-    title: "Sites",
-    icon: Building,
-    url: "/admin/sites"
-  }, {
-    title: "Users",
-    icon: Users,
-    url: "/admin/users"
-  }, {
-    title: "Organization",
-    icon: Globe,
-    url: "/admin/organization"
-  }];
+  const menuItems = [
+    {
+      title: "Tickets",
+      icon: Ticket,
+      url: "/admin/tickets"
+    }, {
+      title: "Sites",
+      icon: Building,
+      url: "/admin/sites"
+    }, {
+      title: "Users",
+      icon: Users,
+      url: "/admin/users"
+    }, {
+      title: "Organization",
+      icon: Globe,
+      url: "/admin/organization"
+    }];
   return <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <Sidebar>
