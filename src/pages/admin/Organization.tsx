@@ -23,7 +23,7 @@ const AdminOrganization = () => {
           <TabsList>
             <TabsTrigger value="general">General</TabsTrigger>
             
-            <TabsTrigger value="subscription">Subscription</TabsTrigger>
+            
           </TabsList>
           
           <TabsContent value="general" className="space-y-4 mt-4">
