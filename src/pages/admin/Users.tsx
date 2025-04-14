@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { AdminLayout } from "@/components/layouts/AdminLayout";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,8 @@ import {
   MoreHorizontal, 
   PlusCircle, 
   UserPlus, 
-  Users as UsersIcon 
+  Users as UsersIcon,
+  UserCog
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -39,7 +39,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// Mock data for users
 const usersData = [
   {
     id: "user-01",
@@ -97,7 +96,6 @@ const usersData = [
   },
 ];
 
-// Role badge component
 const RoleBadge = ({ role }: { role: string }) => {
   switch (role) {
     case "admin":
@@ -111,7 +109,6 @@ const RoleBadge = ({ role }: { role: string }) => {
   }
 };
 
-// Status badge component
 const StatusBadge = ({ status }: { status: string }) => {
   switch (status) {
     case "active":
@@ -129,18 +126,15 @@ const AdminUsers = () => {
   const [isInviteDialogOpen, setIsInviteDialogOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState("member");
   
-  // Filter users based on search term
   const filteredUsers = usersData.filter(user => 
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
   
-  // Handle search input change
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
   
-  // Handle user invite
   const handleInviteUser = () => {
     toast({
       title: "Invitation Sent",
@@ -149,11 +143,10 @@ const AdminUsers = () => {
     setIsInviteDialogOpen(false);
   };
   
-  // Handle user actions
-  const handleResetPassword = (userId: string) => {
+  const handleUpdateRole = (userId: string) => {
     toast({
-      title: "Password Reset",
-      description: "Password reset email has been sent to the user.",
+      title: "Role Updated",
+      description: "The user's role has been updated successfully.",
     });
   };
   
@@ -163,18 +156,10 @@ const AdminUsers = () => {
       description: "The user has been deactivated successfully.",
     });
   };
-  
-  const handleDeleteUser = (userId: string) => {
-    toast({
-      title: "User Deleted",
-      description: "The user has been deleted successfully.",
-    });
-  };
 
   return (
     <AdminLayout title="Manage Users">
       <div className="space-y-6">
-        {/* Controls */}
         <div className="flex flex-col md:flex-row gap-4 justify-between">
           <div className="flex items-center gap-4 flex-wrap">
             <div className="relative w-full md:w-64">
@@ -194,7 +179,6 @@ const AdminUsers = () => {
           </Button>
         </div>
         
-        {/* Users Table */}
         <div className="rounded-md border overflow-hidden">
           <Table>
             <TableHeader>
@@ -245,11 +229,9 @@ const AdminUsers = () => {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => handleResetPassword(user.id)}>
-                          Reset Password
-                        </DropdownMenuItem>
-                        <DropdownMenuItem>
-                          Edit User
+                        <DropdownMenuItem onClick={() => handleUpdateRole(user.id)}>
+                          <UserCog className="mr-2 h-4 w-4" />
+                          Update Role
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           Manage Sites
@@ -261,12 +243,6 @@ const AdminUsers = () => {
                         >
                           {user.status === "active" ? "Deactivate User" : "Activate User"}
                         </DropdownMenuItem>
-                        <DropdownMenuItem 
-                          className="text-destructive"
-                          onClick={() => handleDeleteUser(user.id)}
-                        >
-                          Delete User
-                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -276,7 +252,6 @@ const AdminUsers = () => {
           </Table>
         </div>
         
-        {/* Invite User Dialog */}
         <Dialog open={isInviteDialogOpen} onOpenChange={setIsInviteDialogOpen}>
           <DialogContent>
             <DialogHeader>
