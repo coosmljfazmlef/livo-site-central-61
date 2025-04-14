@@ -8,6 +8,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Search, PlusCircle, MoreHorizontal, Building, Users, Ticket, MapPin, Check, Filter, Grid, List, ArrowUpDown, ArrowUp, ArrowDown, CalendarDays, FileText, Star, StarOff } from "lucide-react";
+
 const sitesData = [{
   id: "site-1",
   name: "Sunset Apartments",
@@ -81,6 +82,7 @@ const sitesData = [{
   featured: false,
   lastUpdated: "2023-07-25T15:10:00"
 }];
+
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('en-US', {
@@ -89,6 +91,7 @@ const formatDate = (dateString: string) => {
     day: 'numeric'
   }).format(date);
 };
+
 const getStatusBadge = (status: string) => {
   switch (status) {
     case "active":
@@ -101,16 +104,15 @@ const getStatusBadge = (status: string) => {
       return <Badge variant="outline">Unknown</Badge>;
   }
 };
+
 const AdminSites = () => {
   const [view, setView] = useState<"list" | "grid">("grid");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState("name");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-  // Filter sites based on search term
   const filteredSites = sitesData.filter(site => site.name.toLowerCase().includes(searchTerm.toLowerCase()) || site.address.toLowerCase().includes(searchTerm.toLowerCase()));
 
-  // Sort sites based on sort field and direction
   const sortedSites = [...filteredSites].sort((a, b) => {
     const fieldA = a[sortField as keyof typeof a];
     const fieldB = b[sortField as keyof typeof b];
@@ -123,7 +125,6 @@ const AdminSites = () => {
     }
   });
 
-  // Handle sorting
   const handleSort = (field: string) => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
@@ -133,19 +134,19 @@ const AdminSites = () => {
     }
   };
 
-  // Render sort icon
   const renderSortIcon = (field: string) => {
     if (sortField !== field) return <ArrowUpDown className="ml-1 h-4 w-4" />;
     return sortDirection === "asc" ? <ArrowUp className="ml-1 h-4 w-4" /> : <ArrowDown className="ml-1 h-4 w-4" />;
   };
+
   const getSiteMetricsClass = (count: number) => {
     if (count > 20) return "text-red-500";
     if (count > 10) return "text-amber-500";
     return "text-green-500";
   };
+
   return <AdminLayout title="Manage Sites">
       <div className="space-y-6">
-        {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card>
             <CardHeader className="pb-2">
@@ -167,8 +168,6 @@ const AdminSites = () => {
             </CardContent>
           </Card>
           
-          
-          
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium">Open Tickets</CardTitle>
@@ -181,7 +180,6 @@ const AdminSites = () => {
           </Card>
         </div>
 
-        {/* Controls */}
         <div className="flex flex-col md:flex-row justify-between gap-4">
           <div className="flex items-center gap-4 flex-wrap">
             <div className="relative w-full md:w-64">
@@ -214,7 +212,6 @@ const AdminSites = () => {
           </Button>
         </div>
 
-        {/* Content */}
         <div>
           {view === "grid" ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {sortedSites.map(site => <Card key={site.id} className="overflow-hidden transition-shadow hover:shadow-md">
@@ -230,7 +227,6 @@ const AdminSites = () => {
                             <CardTitle className="text-xl">{site.name}</CardTitle>
                             {site.featured && <Star className="h-4 w-4 text-amber-400 fill-amber-400" />}
                           </div>
-                          
                         </div>
                       </div>
                       <DropdownMenu>
@@ -401,4 +397,5 @@ const AdminSites = () => {
       </div>
     </AdminLayout>;
 };
+
 export default AdminSites;
