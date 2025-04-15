@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Search, Filter, MoreVertical, Download, Plus } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import TicketDetailsModal from "@/components/tickets/TicketDetailsModal";
 
 // Ticket data for the table
 const ticketsData = [{
@@ -98,11 +99,20 @@ const StatusBadge = ({
       return <Badge variant="outline">{status}</Badge>;
   }
 };
+
 const ManagerTickets = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [siteFilter, setSiteFilter] = useState("all");
+  const [selectedTicket, setSelectedTicket] = useState<null | typeof ticketsData[0]>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleTicketClick = (ticket: typeof ticketsData[0]) => {
+    setSelectedTicket(ticket);
+    setModalOpen(true);
+  };
+
   return <ManagerLayout title="Manage Tickets">
       <div className="space-y-6">
         {/* Header with action buttons */}
@@ -187,7 +197,12 @@ const ManagerTickets = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {ticketsData.map(ticket => <TableRow key={ticket.id}>
+              {ticketsData.map(ticket => (
+                <TableRow 
+                  key={ticket.id} 
+                  className="cursor-pointer hover:bg-muted/50"
+                  onClick={() => handleTicketClick(ticket)}
+                >
                   <TableCell className="font-medium">{ticket.id}</TableCell>
                   <TableCell>{ticket.title}</TableCell>
                   <TableCell>{ticket.site}</TableCell>
@@ -199,7 +214,7 @@ const ManagerTickets = () => {
                     <PriorityBadge priority={ticket.priority} />
                   </TableCell>
                   <TableCell>{ticket.created}</TableCell>
-                  <TableCell>
+                  <TableCell onClick={(e) => e.stopPropagation()}>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon">
@@ -207,7 +222,7 @@ const ManagerTickets = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>View Details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleTicketClick(ticket)}>View Details</DropdownMenuItem>
                         <DropdownMenuItem>Update Status</DropdownMenuItem>
                         <DropdownMenuItem>Assign Ticket</DropdownMenuItem>
                         <DropdownMenuSeparator />
@@ -215,7 +230,8 @@ const ManagerTickets = () => {
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
-                </TableRow>)}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>
@@ -240,7 +256,15 @@ const ManagerTickets = () => {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
+        
+        {/* Ticket Details Modal */}
+        <TicketDetailsModal 
+          open={modalOpen} 
+          onOpenChange={setModalOpen} 
+          ticket={selectedTicket}
+        />
       </div>
     </ManagerLayout>;
 };
+
 export default ManagerTickets;
