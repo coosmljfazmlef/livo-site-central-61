@@ -1,7 +1,8 @@
+
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { BarChart4, Ticket, Building, Menu, BellRing, User, LogOut } from "lucide-react";
+import { Ticket, Building, Menu, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarTrigger, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarGroup, SidebarGroupLabel, SidebarGroupContent } from "@/components/ui/sidebar";
@@ -27,10 +28,6 @@ export const ManagerLayout: React.FC<ManagerLayoutProps> = ({
     }
   }, [user, navigate]);
   const menuItems = [{
-    title: "Dashboard",
-    icon: BarChart4,
-    url: "/manager"
-  }, {
     title: "Tickets",
     icon: Ticket,
     url: "/manager/tickets"

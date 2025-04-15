@@ -16,7 +16,6 @@ import AdminOrganization from "./pages/admin/Organization";
 import AdminTickets from "./pages/admin/Tickets";
 
 // Manager routes
-import ManagerDashboard from "./pages/manager/Dashboard";
 import ManagerSiteDetails from "./pages/manager/SiteDetails";
 import ManagerTickets from "./pages/manager/Tickets";
 
@@ -45,7 +44,7 @@ const App = () => (
           <Route path="/admin/tickets" element={<AdminTickets />} />
           
           {/* Manager routes */}
-          <Route path="/manager" element={<ManagerDashboard />} />
+          <Route path="/manager" element={<Navigate to="/manager/tickets" replace />} />
           <Route path="/manager/site/:siteId" element={<ManagerSiteDetails />} />
           <Route path="/manager/tickets" element={<ManagerTickets />} />
           
