@@ -1,36 +1,12 @@
-
 import React from "react";
 import { useParams } from "react-router-dom";
 import { ManagerLayout } from "../../components/layouts/ManagerLayout";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Building, 
-  Clock, 
-  MapPin, 
-  Ticket, 
-  User, 
-  LineChart,
-  ChevronUp,
-  ChevronDown
-} from "lucide-react";
+import { Building, Clock, MapPin, Ticket, User, LineChart, ChevronUp, ChevronDown } from "lucide-react";
 
 // Mock site data
 const mockSites = {
@@ -49,7 +25,7 @@ const mockSites = {
     stats: {
       weeklyTickets: [3, 5, 2, 6, 4, 3, 2],
       avgResponseTime: "4.2 hours",
-      mostCommonIssue: "Plumbing",
+      mostCommonIssue: "Plumbing"
     }
   },
   "site-2": {
@@ -67,113 +43,123 @@ const mockSites = {
     stats: {
       weeklyTickets: [2, 1, 4, 3, 2, 1, 3],
       avgResponseTime: "3.8 hours",
-      mostCommonIssue: "Electrical",
+      mostCommonIssue: "Electrical"
     }
   }
 };
 
 // Mock tickets for the site
-const mockTickets = [
-  {
-    id: "T-1001",
-    title: "Water leak in apartment 302",
-    status: { name: "Open", color: "#f97316" },
-    priority: { name: "High", color: "#ef4444" },
-    category: "Plumbing",
-    reporter: "John Smith",
-    createdAt: "2025-04-08T14:22:00Z",
-    updatedAt: "2025-04-08T16:45:00Z",
+const mockTickets = [{
+  id: "T-1001",
+  title: "Water leak in apartment 302",
+  status: {
+    name: "Open",
+    color: "#f97316"
   },
-  {
-    id: "T-1002",
-    title: "Broken window in stairwell",
-    status: { name: "In Progress", color: "#3b82f6" },
-    priority: { name: "Medium", color: "#eab308" },
-    category: "Maintenance",
-    reporter: "Emma Johnson",
-    createdAt: "2025-04-07T09:10:00Z",
-    updatedAt: "2025-04-09T11:30:00Z",
+  priority: {
+    name: "High",
+    color: "#ef4444"
   },
-  {
-    id: "T-1003",
-    title: "AC not working in apartment 105",
-    status: { name: "Open", color: "#f97316" },
-    priority: { name: "Medium", color: "#eab308" },
-    category: "HVAC",
-    reporter: "Michael Brown",
-    createdAt: "2025-04-09T13:15:00Z",
-    updatedAt: "2025-04-09T13:15:00Z",
+  category: "Plumbing",
+  reporter: "John Smith",
+  createdAt: "2025-04-08T14:22:00Z",
+  updatedAt: "2025-04-08T16:45:00Z"
+}, {
+  id: "T-1002",
+  title: "Broken window in stairwell",
+  status: {
+    name: "In Progress",
+    color: "#3b82f6"
   },
-  {
-    id: "T-1004",
-    title: "Light fixture broken in lobby",
-    status: { name: "Resolved", color: "#22c55e" },
-    priority: { name: "Low", color: "#64748b" },
-    category: "Electrical",
-    reporter: "Sarah Williams",
-    createdAt: "2025-04-06T10:20:00Z",
-    updatedAt: "2025-04-08T09:45:00Z",
+  priority: {
+    name: "Medium",
+    color: "#eab308"
   },
-];
+  category: "Maintenance",
+  reporter: "Emma Johnson",
+  createdAt: "2025-04-07T09:10:00Z",
+  updatedAt: "2025-04-09T11:30:00Z"
+}, {
+  id: "T-1003",
+  title: "AC not working in apartment 105",
+  status: {
+    name: "Open",
+    color: "#f97316"
+  },
+  priority: {
+    name: "Medium",
+    color: "#eab308"
+  },
+  category: "HVAC",
+  reporter: "Michael Brown",
+  createdAt: "2025-04-09T13:15:00Z",
+  updatedAt: "2025-04-09T13:15:00Z"
+}, {
+  id: "T-1004",
+  title: "Light fixture broken in lobby",
+  status: {
+    name: "Resolved",
+    color: "#22c55e"
+  },
+  priority: {
+    name: "Low",
+    color: "#64748b"
+  },
+  category: "Electrical",
+  reporter: "Sarah Williams",
+  createdAt: "2025-04-06T10:20:00Z",
+  updatedAt: "2025-04-08T09:45:00Z"
+}];
 
 // Mock members for the site
-const mockMembers = [
-  {
-    id: "user-1",
-    name: "John Smith",
-    email: "john@example.com",
-    unit: "302",
-    joinedAt: "2025-01-15",
-    avatar: "https://ui-avatars.com/api/?name=John+Smith&background=0D8ABC&color=fff",
-    ticketCount: 3,
-  },
-  {
-    id: "user-2",
-    name: "Emma Johnson",
-    email: "emma@example.com",
-    unit: "207",
-    joinedAt: "2025-02-10",
-    avatar: "https://ui-avatars.com/api/?name=Emma+Johnson&background=0D8ABC&color=fff",
-    ticketCount: 1,
-  },
-  {
-    id: "user-3",
-    name: "Michael Brown",
-    email: "michael@example.com",
-    unit: "105",
-    joinedAt: "2024-11-05",
-    avatar: "https://ui-avatars.com/api/?name=Michael+Brown&background=0D8ABC&color=fff",
-    ticketCount: 4,
-  },
-  {
-    id: "user-4",
-    name: "Sarah Williams",
-    email: "sarah@example.com",
-    unit: "412",
-    joinedAt: "2025-03-20",
-    avatar: "https://ui-avatars.com/api/?name=Sarah+Williams&background=0D8ABC&color=fff",
-    ticketCount: 2,
-  },
-];
-
+const mockMembers = [{
+  id: "user-1",
+  name: "John Smith",
+  email: "john@example.com",
+  unit: "302",
+  joinedAt: "2025-01-15",
+  avatar: "https://ui-avatars.com/api/?name=John+Smith&background=0D8ABC&color=fff",
+  ticketCount: 3
+}, {
+  id: "user-2",
+  name: "Emma Johnson",
+  email: "emma@example.com",
+  unit: "207",
+  joinedAt: "2025-02-10",
+  avatar: "https://ui-avatars.com/api/?name=Emma+Johnson&background=0D8ABC&color=fff",
+  ticketCount: 1
+}, {
+  id: "user-3",
+  name: "Michael Brown",
+  email: "michael@example.com",
+  unit: "105",
+  joinedAt: "2024-11-05",
+  avatar: "https://ui-avatars.com/api/?name=Michael+Brown&background=0D8ABC&color=fff",
+  ticketCount: 4
+}, {
+  id: "user-4",
+  name: "Sarah Williams",
+  email: "sarah@example.com",
+  unit: "412",
+  joinedAt: "2025-03-20",
+  avatar: "https://ui-avatars.com/api/?name=Sarah+Williams&background=0D8ABC&color=fff",
+  ticketCount: 2
+}];
 const ManagerSiteDetails = () => {
-  const { siteId } = useParams();
+  const {
+    siteId
+  } = useParams();
   const site = mockSites[siteId || "site-1"];
-
   if (!site) {
-    return (
-      <ManagerLayout title="Site Not Found">
+    return <ManagerLayout title="Site Not Found">
         <div className="text-center py-10">
           <h2 className="text-2xl font-bold mb-2">Site not found</h2>
           <p className="text-muted-foreground mb-4">The site you're looking for doesn't exist or you don't have access to it.</p>
           <Button variant="outline" onClick={() => window.history.back()}>Go Back</Button>
         </div>
-      </ManagerLayout>
-    );
+      </ManagerLayout>;
   }
-
-  return (
-    <ManagerLayout title={site.name}>
+  return <ManagerLayout title={site.name}>
       <div className="space-y-6">
         {/* Site overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -184,11 +170,7 @@ const ManagerSiteDetails = () => {
             <CardContent>
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="flex-shrink-0">
-                  <img 
-                    src={site.image} 
-                    alt={site.name} 
-                    className="w-full md:w-64 h-48 object-cover rounded-md"
-                  />
+                  <img src={site.image} alt={site.name} className="w-full md:w-64 h-48 object-cover rounded-md" />
                 </div>
                 
                 <div className="space-y-3">
@@ -220,25 +202,9 @@ const ManagerSiteDetails = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-center">
-                      <div className="bg-orange-100 p-2 rounded-full mr-3">
-                        <Clock className="h-5 w-5 text-orange-600" />
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground">Avg Response</div>
-                        <div className="font-medium">{site.stats.avgResponseTime}</div>
-                      </div>
-                    </div>
                     
-                    <div className="flex items-center">
-                      <div className="bg-blue-100 p-2 rounded-full mr-3">
-                        <Building className="h-5 w-5 text-blue-600" />
-                      </div>
-                      <div>
-                        <div className="text-sm text-muted-foreground">Most Common</div>
-                        <div className="font-medium">{site.stats.mostCommonIssue}</div>
-                      </div>
-                    </div>
+                    
+                    
                   </div>
                 </div>
               </div>
@@ -274,10 +240,10 @@ const ManagerSiteDetails = () => {
                 <div className="pt-2">
                   <div className="text-sm mb-2">Weekly Ticket Trend</div>
                   <div className="flex items-end justify-between h-16 gap-1">
-                    {site.stats.weeklyTickets.map((count, index) => (
-                      <div key={index} className="bg-livo-200 hover:bg-livo-300 rounded-t w-full" style={{height: `${count * 15}%`}}>
-                      </div>
-                    ))}
+                    {site.stats.weeklyTickets.map((count, index) => <div key={index} className="bg-livo-200 hover:bg-livo-300 rounded-t w-full" style={{
+                    height: `${count * 15}%`
+                  }}>
+                      </div>)}
                   </div>
                   <div className="flex justify-between text-xs text-muted-foreground mt-1">
                     <span>Mon</span>
@@ -325,29 +291,22 @@ const ManagerSiteDetails = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockTickets.map((ticket) => (
-                      <TableRow key={ticket.id} className="cursor-pointer hover:bg-muted/50">
+                    {mockTickets.map(ticket => <TableRow key={ticket.id} className="cursor-pointer hover:bg-muted/50">
                         <TableCell className="font-medium">{ticket.id}</TableCell>
                         <TableCell>{ticket.title}</TableCell>
                         <TableCell>
-                          <span 
-                            className="inline-block px-2 py-0.5 text-xs rounded-full" 
-                            style={{ 
-                              backgroundColor: `${ticket.status.color}20`, 
-                              color: ticket.status.color 
-                            }}
-                          >
+                          <span className="inline-block px-2 py-0.5 text-xs rounded-full" style={{
+                        backgroundColor: `${ticket.status.color}20`,
+                        color: ticket.status.color
+                      }}>
                             {ticket.status.name}
                           </span>
                         </TableCell>
                         <TableCell>
-                          <span 
-                            className="inline-block px-2 py-0.5 text-xs rounded-full" 
-                            style={{ 
-                              backgroundColor: `${ticket.priority.color}20`, 
-                              color: ticket.priority.color 
-                            }}
-                          >
+                          <span className="inline-block px-2 py-0.5 text-xs rounded-full" style={{
+                        backgroundColor: `${ticket.priority.color}20`,
+                        color: ticket.priority.color
+                      }}>
                             {ticket.priority.name}
                           </span>
                         </TableCell>
@@ -356,8 +315,7 @@ const ManagerSiteDetails = () => {
                         <TableCell className="text-muted-foreground">
                           {new Date(ticket.createdAt).toLocaleDateString()}
                         </TableCell>
-                      </TableRow>
-                    ))}
+                      </TableRow>)}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -385,8 +343,7 @@ const ManagerSiteDetails = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockMembers.map((member) => (
-                      <TableRow key={member.id} className="cursor-pointer hover:bg-muted/50">
+                    {mockMembers.map(member => <TableRow key={member.id} className="cursor-pointer hover:bg-muted/50">
                         <TableCell>
                           <div className="flex items-center gap-2">
                             <div className="h-8 w-8 rounded-full overflow-hidden">
@@ -399,8 +356,7 @@ const ManagerSiteDetails = () => {
                         <TableCell>#{member.unit}</TableCell>
                         <TableCell>{member.joinedAt}</TableCell>
                         <TableCell>{member.ticketCount}</TableCell>
-                      </TableRow>
-                    ))}
+                      </TableRow>)}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -419,61 +375,31 @@ const ManagerSiteDetails = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="site-name" className="text-sm font-medium">Site Name</label>
-                    <input 
-                      id="site-name"
-                      type="text"
-                      defaultValue={site.name}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    />
+                    <input id="site-name" type="text" defaultValue={site.name} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="site-image" className="text-sm font-medium">Site Image URL</label>
-                    <input 
-                      id="site-image"
-                      type="text"
-                      defaultValue={site.image}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    />
+                    <input id="site-image" type="text" defaultValue={site.image} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                   </div>
                 </div>
                 
                 <div className="space-y-2">
                   <label htmlFor="site-address" className="text-sm font-medium">Address</label>
-                  <input 
-                    id="site-address"
-                    type="text"
-                    defaultValue={site.address}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  />
+                  <input id="site-address" type="text" defaultValue={site.address} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                 </div>
                 
                 <div className="grid grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <label htmlFor="site-city" className="text-sm font-medium">City</label>
-                    <input 
-                      id="site-city"
-                      type="text"
-                      defaultValue={site.city}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    />
+                    <input id="site-city" type="text" defaultValue={site.city} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="site-state" className="text-sm font-medium">State</label>
-                    <input 
-                      id="site-state"
-                      type="text"
-                      defaultValue={site.state}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    />
+                    <input id="site-state" type="text" defaultValue={site.state} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="site-zip" className="text-sm font-medium">Zip Code</label>
-                    <input 
-                      id="site-zip"
-                      type="text"
-                      defaultValue={site.zipCode}
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                    />
+                    <input id="site-zip" type="text" defaultValue={site.zipCode} className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
                   </div>
                 </div>
                 
@@ -504,8 +430,6 @@ const ManagerSiteDetails = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </ManagerLayout>
-  );
+    </ManagerLayout>;
 };
-
 export default ManagerSiteDetails;
