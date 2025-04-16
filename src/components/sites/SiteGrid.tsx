@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { SiteData } from "@/data/sitesData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,27 +7,35 @@ import { Building, Users, Ticket, FileText, Check, MoreHorizontal } from "lucide
 import { getSiteMetricsClass } from "@/utils/siteUtils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-
 interface SiteGridProps {
   sites: SiteData[];
 }
-
-const SiteGrid: React.FC<SiteGridProps> = ({ sites }) => {
-  const { toast } = useToast();
+const SiteGrid: React.FC<SiteGridProps> = ({
+  sites
+}) => {
+  const {
+    toast
+  } = useToast();
   const [selectedSite, setSelectedSite] = useState<SiteData | null>(null);
-  const [dialogContent, setDialogContent] = useState<{title: string, action: string}>({title: "", action: ""});
+  const [dialogContent, setDialogContent] = useState<{
+    title: string;
+    action: string;
+  }>({
+    title: "",
+    action: ""
+  });
   const [open, setOpen] = useState(false);
-  
   const handleAction = (site: SiteData, action: string, title: string) => {
     setSelectedSite(site);
-    setDialogContent({title, action});
+    setDialogContent({
+      title,
+      action
+    });
     setOpen(true);
   };
-  
   const confirmAction = () => {
     if (!selectedSite) return;
-    
-    switch(dialogContent.action) {
+    switch (dialogContent.action) {
       case "edit":
         toast({
           title: "Edit Site",
@@ -54,15 +61,11 @@ const SiteGrid: React.FC<SiteGridProps> = ({ sites }) => {
         });
         break;
     }
-    
     setOpen(false);
   };
-
-  return (
-    <>
+  return <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sites.map(site => (
-          <Card key={site.id} className="overflow-hidden transition-shadow hover:shadow-md">
+        {sites.map(site => <Card key={site.id} className="overflow-hidden transition-shadow hover:shadow-md">
             <CardHeader className="pb-2">
               <div className="flex justify-between items-start">
                 <div className="flex items-start gap-3">
@@ -75,54 +78,32 @@ const SiteGrid: React.FC<SiteGridProps> = ({ sites }) => {
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
+                    
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem 
-                      className="flex items-center gap-2"
-                      onClick={() => handleAction(site, "edit", "Edit Site")}
-                    >
+                    <DropdownMenuItem className="flex items-center gap-2" onClick={() => handleAction(site, "edit", "Edit Site")}>
                       <FileText className="h-4 w-4" />
                       Edit Site
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="flex items-center gap-2"
-                      onClick={() => handleAction(site, "members", "Manage Members")}
-                    >
+                    <DropdownMenuItem className="flex items-center gap-2" onClick={() => handleAction(site, "members", "Manage Members")}>
                       <Users className="h-4 w-4" />
                       Manage Members
                     </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      className="flex items-center gap-2"
-                      onClick={() => handleAction(site, "tickets", "View Tickets")}
-                    >
+                    <DropdownMenuItem className="flex items-center gap-2" onClick={() => handleAction(site, "tickets", "View Tickets")}>
                       <Ticket className="h-4 w-4" />
                       View Tickets
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem 
-                      className="text-destructive flex items-center gap-2"
-                      onClick={() => handleAction(
-                        site, 
-                        "toggleStatus", 
-                        site.status === "inactive" ? "Activate Site" : "Deactivate Site"
-                      )}
-                    >
-                      {site.status === "inactive" ? (
-                        <>
+                    <DropdownMenuItem className="text-destructive flex items-center gap-2" onClick={() => handleAction(site, "toggleStatus", site.status === "inactive" ? "Activate Site" : "Deactivate Site")}>
+                      {site.status === "inactive" ? <>
                           <Check className="h-4 w-4" />
                           Activate Site
-                        </>
-                      ) : (
-                        <>
+                        </> : <>
                           <Check className="h-4 w-4 opacity-70" />
                           Deactivate Site
-                        </>
-                      )}
+                        </>}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -153,8 +134,7 @@ const SiteGrid: React.FC<SiteGridProps> = ({ sites }) => {
                 </div>
               </div>
             </CardContent>
-          </Card>
-        ))}
+          </Card>)}
       </div>
       
       <Dialog open={open} onOpenChange={setOpen}>
@@ -163,13 +143,9 @@ const SiteGrid: React.FC<SiteGridProps> = ({ sites }) => {
             <DialogTitle>{dialogContent.title}</DialogTitle>
           </DialogHeader>
           <div className="py-4">
-            {selectedSite && (
-              <p>
-                Are you sure you want to {dialogContent.action === "toggleStatus" 
-                  ? (selectedSite.status === "inactive" ? "activate" : "deactivate") 
-                  : dialogContent.action} {selectedSite.name}?
-              </p>
-            )}
+            {selectedSite && <p>
+                Are you sure you want to {dialogContent.action === "toggleStatus" ? selectedSite.status === "inactive" ? "activate" : "deactivate" : dialogContent.action} {selectedSite.name}?
+              </p>}
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -179,8 +155,6 @@ const SiteGrid: React.FC<SiteGridProps> = ({ sites }) => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>
-  );
+    </>;
 };
-
 export default SiteGrid;
