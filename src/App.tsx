@@ -8,6 +8,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 // Shared components
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
+import AdminSiteDetails from "./pages/admin/SiteDetails";
 
 // Admin routes
 import AdminSites from "./pages/admin/Sites";
@@ -39,6 +40,7 @@ const App = () => (
           {/* Admin routes */}
           <Route path="/admin" element={<Navigate to="/admin/tickets" replace />} />
           <Route path="/admin/sites" element={<AdminSites />} />
+          <Route path="/admin/sites/:siteId" element={<AdminSiteDetails />} />
           <Route path="/admin/users" element={<AdminUsers />} />
           <Route path="/admin/organization" element={<AdminOrganization />} />
           <Route path="/admin/tickets" element={<AdminTickets />} />
