@@ -211,53 +211,7 @@ const ManagerSiteDetails = () => {
             </CardContent>
           </Card>
           
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle>Ticket Status</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="bg-orange-100 p-2 rounded-full mr-3">
-                      <Ticket className="h-5 w-5 text-orange-600" />
-                    </div>
-                    <span>Open Tickets</span>
-                  </div>
-                  <div className="text-xl font-bold">{site.openTickets}</div>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="bg-green-100 p-2 rounded-full mr-3">
-                      <LineChart className="h-5 w-5 text-green-600" />
-                    </div>
-                    <span>Resolved This Week</span>
-                  </div>
-                  <div className="text-xl font-bold">{site.resolvedTickets}</div>
-                </div>
-                
-                <div className="pt-2">
-                  <div className="text-sm mb-2">Weekly Ticket Trend</div>
-                  <div className="flex items-end justify-between h-16 gap-1">
-                    {site.stats.weeklyTickets.map((count, index) => <div key={index} className="bg-livo-200 hover:bg-livo-300 rounded-t w-full" style={{
-                    height: `${count * 15}%`
-                  }}>
-                      </div>)}
-                  </div>
-                  <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                    <span>Mon</span>
-                    <span>Tue</span>
-                    <span>Wed</span>
-                    <span>Thu</span>
-                    <span>Fri</span>
-                    <span>Sat</span>
-                    <span>Sun</span>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          
         </div>
         
         {/* Tabs for tickets and members */}
