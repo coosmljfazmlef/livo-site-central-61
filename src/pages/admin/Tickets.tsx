@@ -12,7 +12,6 @@ import { useToast } from "@/components/ui/use-toast";
 import TicketDetailsModal from "@/components/tickets/TicketDetailsModal";
 import { useAuth } from "@/contexts/AuthContext";
 
-// Simplified ticket data for the table
 const ticketsData = [{
   id: "TKT-001",
   title: "Water leak in apartment 302",
@@ -78,7 +77,6 @@ const ticketsData = [{
   created: "Apr 1, 2025"
 }];
 
-// Function to render priority badge
 const PriorityBadge = ({
   priority
 }: {
@@ -98,7 +96,6 @@ const PriorityBadge = ({
   }
 };
 
-// Function to render status badge
 const StatusBadge = ({
   status
 }: {
@@ -115,6 +112,7 @@ const StatusBadge = ({
       return <Badge variant="outline">{status}</Badge>;
   }
 };
+
 const AdminTickets = () => {
   const {
     toast
@@ -128,6 +126,7 @@ const AdminTickets = () => {
   const [siteFilter, setSiteFilter] = useState("all");
   const [selectedTicket, setSelectedTicket] = useState<null | any>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
   const handleViewDetails = (ticket: any) => {
     setSelectedTicket({
       ...ticket,
@@ -136,21 +135,17 @@ const AdminTickets = () => {
     setModalOpen(true);
   };
 
-  // Filter tickets based on search and filters
   const filteredTickets = ticketsData.filter(ticket => {
-    // Search filter
     const matchesSearch = searchTerm === "" || ticket.title.toLowerCase().includes(searchTerm.toLowerCase()) || ticket.id.toLowerCase().includes(searchTerm.toLowerCase());
 
-    // Status filter
     const matchesStatus = statusFilter === "all" || ticket.status.toLowerCase() === statusFilter.toLowerCase();
 
-    // Priority filter
     const matchesPriority = priorityFilter === "all" || ticket.priority.toLowerCase() === priorityFilter.toLowerCase();
 
-    // Site filter
     const matchesSite = siteFilter === "all" || ticket.site.toLowerCase().includes(siteFilter.toLowerCase());
     return matchesSearch && matchesStatus && matchesPriority && matchesSite;
   });
+
   return <AdminLayout title="All Tickets">
       <div className="space-y-6">
         <Card>
@@ -240,9 +235,9 @@ const AdminTickets = () => {
           </Table>
         </div>
 
-        {/* Ticket Details Modal */}
         {selectedTicket && <TicketDetailsModal open={modalOpen} onOpenChange={setModalOpen} ticket={selectedTicket} userRole={user?.role || "admin"} />}
       </div>
     </AdminLayout>;
 };
+
 export default AdminTickets;
