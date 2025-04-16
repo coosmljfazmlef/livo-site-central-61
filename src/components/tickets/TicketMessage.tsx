@@ -23,7 +23,7 @@ const TicketMessage: React.FC<TicketMessageProps> = ({
         </Avatar>
         <div className={`rounded-lg px-4 py-2 ${isManager ? 'bg-primary/10 text-primary-foreground/90' : 'bg-muted text-muted-foreground'}`}>
           <div className="flex justify-between items-center gap-4">
-            <span className="font-medium text-sm">{sender}</span>
+            <span className="font-medium text-sm text-gray-700">{sender}</span>
             <span className="text-xs text-muted-foreground">{timestamp}</span>
           </div>
           <p className="mt-1 text-slate-700">{content}</p>
