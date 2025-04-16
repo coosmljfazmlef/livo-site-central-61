@@ -200,9 +200,7 @@ const AdminTickets = () => {
                   <SelectItem value="riverside">Riverside Apartments</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline" size="icon">
-                <Filter className="h-4 w-4" />
-              </Button>
+              
             </div>
           </CardContent>
         </Card>
