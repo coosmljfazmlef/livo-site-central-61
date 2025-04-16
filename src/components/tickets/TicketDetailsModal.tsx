@@ -6,17 +6,21 @@ import TicketMessageList from "./TicketMessageList";
 import TicketMessageInput from "./TicketMessageInput";
 import { mockMessages } from "./TicketMessageData";
 import { TicketDataType } from "./TicketsData";
+import { Badge } from "@/components/ui/badge";
+import { UserRole } from "@/types";
 
 interface TicketDetailsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   ticket: TicketDataType | null;
+  userRole?: UserRole;
 }
 
 const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({ 
   open, 
   onOpenChange, 
-  ticket 
+  ticket,
+  userRole = "member"
 }) => {
   if (!ticket) return null;
 
@@ -29,15 +33,20 @@ const TicketDetailsModal: React.FC<TicketDetailsModalProps> = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-3xl h-[80vh] flex flex-col p-0 gap-0">
         <DialogHeader className="p-6 pb-2">
-          <TicketHeader
-            id={ticket.id}
-            title={ticket.title}
-            site={ticket.site}
-            reporter={ticket.reporter}
-            status={ticket.status}
-            priority={ticket.priority}
-            created={ticket.created}
-          />
+          <div className="flex justify-between items-start mb-2">
+            <TicketHeader
+              id={ticket.id}
+              title={ticket.title}
+              site={ticket.site}
+              reporter={ticket.reporter}
+              status={ticket.status}
+              priority={ticket.priority}
+              created={ticket.created}
+            />
+            <Badge variant="outline" className="ml-2">
+              Viewing as {userRole.charAt(0).toUpperCase() + userRole.slice(1)}
+            </Badge>
+          </div>
         </DialogHeader>
         
         <div className="p-6 border-t border-b flex-grow overflow-hidden">

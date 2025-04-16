@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AdminLayout } from "@/components/layouts/AdminLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Search, Filter, MoreVertical } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
+import TicketDetailsModal from "@/components/tickets/TicketDetailsModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Simplified ticket data for the table
 const ticketsData = [{
@@ -114,18 +116,21 @@ const StatusBadge = ({
   }
 };
 const AdminTickets = () => {
-  const {
-    toast
-  } = useToast();
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const [statusFilter, setStatusFilter] = React.useState("all");
-  const [priorityFilter, setPriorityFilter] = React.useState("all");
-  const [siteFilter, setSiteFilter] = React.useState("all");
-  const handleViewDetails = (ticketId: string) => {
-    toast({
-      title: "View Ticket Details",
-      description: `Viewing details for ticket ${ticketId}.`
+  const { toast } = useToast();
+  const { user } = useAuth();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [priorityFilter, setPriorityFilter] = useState("all");
+  const [siteFilter, setSiteFilter] = useState("all");
+  const [selectedTicket, setSelectedTicket] = useState<null | any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleViewDetails = (ticket: any) => {
+    setSelectedTicket({
+      ...ticket,
+      reporter: "Alex Admin" // Mocking reporter name for demo purposes
     });
+    setModalOpen(true);
   };
 
   // Filter tickets based on search and filters
@@ -143,13 +148,16 @@ const AdminTickets = () => {
     const matchesSite = siteFilter === "all" || ticket.site.toLowerCase().includes(siteFilter.toLowerCase());
     return matchesSearch && matchesStatus && matchesPriority && matchesSite;
   });
-  return <AdminLayout title="All Tickets">
+  
+  return (
+    <AdminLayout title="All Tickets">
       <div className="space-y-6">
         <Card>
           <CardHeader className="pb-3">
             <CardTitle>Ticket Filters</CardTitle>
           </CardHeader>
           <CardContent>
+            
             <div className="flex flex-wrap gap-4">
               <div className="flex items-center bg-background border rounded-md w-full md:w-64">
                 <Search className="ml-2 h-4 w-4 text-muted-foreground" />
@@ -212,11 +220,19 @@ const AdminTickets = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredTickets.length === 0 ? <TableRow>
+              {filteredTickets.length === 0 ? (
+                <TableRow>
                   <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                     No tickets found that match your filters.
                   </TableCell>
-                </TableRow> : filteredTickets.map(ticket => <TableRow key={ticket.id}>
+                </TableRow>
+              ) : (
+                filteredTickets.map(ticket => (
+                  <TableRow 
+                    key={ticket.id} 
+                    className="cursor-pointer hover:bg-muted/50"
+                    onClick={() => handleViewDetails(ticket)}
+                  >
                     <TableCell className="font-medium">{ticket.id}</TableCell>
                     <TableCell className="max-w-[200px] truncate">{ticket.title}</TableCell>
                     <TableCell>{ticket.site}</TableCell>
@@ -227,7 +243,7 @@ const AdminTickets = () => {
                       <PriorityBadge priority={ticket.priority} />
                     </TableCell>
                     <TableCell>{ticket.created}</TableCell>
-                    <TableCell>
+                    <TableCell onClick={(e) => e.stopPropagation()}>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon">
@@ -235,7 +251,7 @@ const AdminTickets = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleViewDetails(ticket.id)}>
+                          <DropdownMenuItem onClick={() => handleViewDetails(ticket)}>
                             View Details
                           </DropdownMenuItem>
                           <DropdownMenuItem>Update Status</DropdownMenuItem>
@@ -244,11 +260,25 @@ const AdminTickets = () => {
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
-                  </TableRow>)}
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>
+
+        {/* Ticket Details Modal */}
+        {selectedTicket && (
+          <TicketDetailsModal 
+            open={modalOpen} 
+            onOpenChange={setModalOpen} 
+            ticket={selectedTicket}
+            userRole={user?.role || "admin"}
+          />
+        )}
       </div>
-    </AdminLayout>;
+    </AdminLayout>
+  );
 };
+
 export default AdminTickets;
