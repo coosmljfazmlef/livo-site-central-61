@@ -116,15 +116,18 @@ const StatusBadge = ({
   }
 };
 const AdminTickets = () => {
-  const { toast } = useToast();
-  const { user } = useAuth();
+  const {
+    toast
+  } = useToast();
+  const {
+    user
+  } = useAuth();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
   const [siteFilter, setSiteFilter] = useState("all");
   const [selectedTicket, setSelectedTicket] = useState<null | any>(null);
   const [modalOpen, setModalOpen] = useState(false);
-
   const handleViewDetails = (ticket: any) => {
     setSelectedTicket({
       ...ticket,
@@ -148,9 +151,7 @@ const AdminTickets = () => {
     const matchesSite = siteFilter === "all" || ticket.site.toLowerCase().includes(siteFilter.toLowerCase());
     return matchesSearch && matchesStatus && matchesPriority && matchesSite;
   });
-  
-  return (
-    <AdminLayout title="All Tickets">
+  return <AdminLayout title="All Tickets">
       <div className="space-y-6">
         <Card>
           <CardHeader className="pb-3">
@@ -216,23 +217,15 @@ const AdminTickets = () => {
                 <TableHead>Status</TableHead>
                 <TableHead>Priority</TableHead>
                 <TableHead>Created</TableHead>
-                <TableHead className="w-[50px]"></TableHead>
+                
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredTickets.length === 0 ? (
-                <TableRow>
+              {filteredTickets.length === 0 ? <TableRow>
                   <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                     No tickets found that match your filters.
                   </TableCell>
-                </TableRow>
-              ) : (
-                filteredTickets.map(ticket => (
-                  <TableRow 
-                    key={ticket.id} 
-                    className="cursor-pointer hover:bg-muted/50"
-                    onClick={() => handleViewDetails(ticket)}
-                  >
+                </TableRow> : filteredTickets.map(ticket => <TableRow key={ticket.id} className="cursor-pointer hover:bg-muted/50" onClick={() => handleViewDetails(ticket)}>
                     <TableCell className="font-medium">{ticket.id}</TableCell>
                     <TableCell className="max-w-[200px] truncate">{ticket.title}</TableCell>
                     <TableCell>{ticket.site}</TableCell>
@@ -243,42 +236,15 @@ const AdminTickets = () => {
                       <PriorityBadge priority={ticket.priority} />
                     </TableCell>
                     <TableCell>{ticket.created}</TableCell>
-                    <TableCell onClick={(e) => e.stopPropagation()}>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleViewDetails(ticket)}>
-                            View Details
-                          </DropdownMenuItem>
-                          <DropdownMenuItem>Update Status</DropdownMenuItem>
-                          <DropdownMenuSeparator />
-                          <DropdownMenuItem>Close Ticket</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
+                    
+                  </TableRow>)}
             </TableBody>
           </Table>
         </div>
 
         {/* Ticket Details Modal */}
-        {selectedTicket && (
-          <TicketDetailsModal 
-            open={modalOpen} 
-            onOpenChange={setModalOpen} 
-            ticket={selectedTicket}
-            userRole={user?.role || "admin"}
-          />
-        )}
+        {selectedTicket && <TicketDetailsModal open={modalOpen} onOpenChange={setModalOpen} ticket={selectedTicket} userRole={user?.role || "admin"} />}
       </div>
-    </AdminLayout>
-  );
+    </AdminLayout>;
 };
-
 export default AdminTickets;
